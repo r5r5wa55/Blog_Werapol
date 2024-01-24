@@ -1,10 +1,10 @@
-import  express  from "express";
+import express  from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-
+import userRouters from "./routes/user.route.js"
 
 dotenv.config();
-const app = express();
+
 
 
 mongoose.connect(process.env.MONGO)
@@ -13,7 +13,9 @@ mongoose.connect(process.env.MONGO)
 .catch((err)=>{
     onsole.log(err);
 })
-
+const app = express();
 app.listen(3000,()=>{
     console.log("werapol");
 })
+
+app.use('/api/user',userRouters)
