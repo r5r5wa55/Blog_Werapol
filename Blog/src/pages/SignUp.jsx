@@ -75,14 +75,15 @@ export default function SignUp() {
                 <Label value="Your Password"/>
                 <TextInput placeholder="password" type="password" id='password' onChange={handleChang}/>
               </div>
-              <Button gradientDuoTone="purpleToPink" type="submit">
+              <Button gradientDuoTone="purpleToPink" type="submit" disabled={loding}>
                 {
                   loding ?(
                    <>
-                    <Spinner size='sm'/>
-                     <span >Loading</span></>
+                    <Spinner size='sm' className="mr-2"  />
+                     <span>Loading...</span></>
                   ):('sign up')
                 }
+             
                 </Button>
             </form>
             <div className="flex mt-2 ">
