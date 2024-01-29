@@ -26,7 +26,7 @@ export default  function FooterCom() {
             <div>
               <Footer.Title title="Follow us" />
               <Footer.LinkGroup col>
-                <Footer.Link href="#">Github</Footer.Link>
+                <Footer.Link href="https://github.com/r5r5wa55">Github</Footer.Link>
                 <Footer.Link href="#">Discord</Footer.Link>
               </Footer.LinkGroup>
             </div>
