@@ -1,12 +1,15 @@
+
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link ,useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector } from 'react-redux';
+import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSilce'
 
 export default function SignIn() {
   const [formData ,setFormData]=useState({})
-  const [redMessage,setRedMessage]=useState(null)
-  const [loding,setLoading]=useState(false)
+
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const dispath=useDispatch();
   const navigator = useNavigate();
   const handleChang=(e)=>{
 
@@ -18,12 +21,11 @@ export default function SignIn() {
     e.preventDefault();
   
     if(!formData.email|| ! formData.password){
-      return setRedMessage("กรอกข้อความให้ครบ")
+      return dispath(signInFailure('กรอกข้อความให้ครบ'))
     }
 
     try {
-        setLoading(true);
-        setRedMessage(null)
+        dispath(signInStart())
         const res = await fetch('/api/auth/signin',{
         method:"POST",
         headers:{'Content-Type':'application/json'},
@@ -31,20 +33,23 @@ export default function SignIn() {
 
       });
 
-      setLoading(false);
+    
       const data = await res.json();
-      if(res.ok){
-        navigator('/')
-      }
       if(data.success===false){
-        setLoading(false);
-        return setRedMessage(data.message)
+        
+        dispath(signInFailure(data.message))
+
         
       }
 
+      if(res.ok){
+        dispath(signInSuccess(data))
+        navigator('/')
+      }
+  
     } catch (error) {
-      setLoading(false);
-      return setRedMessage(error.message)
+      dispath(signInFailure(error.message))
+  
     }
   
   }
@@ -72,9 +77,9 @@ export default function SignIn() {
                 <Label value="Your Password"/>
                 <TextInput placeholder="************" type="password" id='password' onChange={handleChang}/>
               </div>
-              <Button gradientDuoTone="purpleToPink" type="submit" disabled={loding} >
+              <Button gradientDuoTone="purpleToPink" type="submit" disabled={loading} >
                 {
-                  loding ?(
+                  loading ?(
                    <>
                     <Spinner size='sm' className="mr-2"  />
                      <span>Loading...</span></>
@@ -89,9 +94,9 @@ export default function SignIn() {
               </span>
             </div>
             {
-                redMessage && 
+                errorMessage && 
              (   <Alert className="mt-3" color='red'>
-                  {redMessage}
+                  {errorMessage}
                 </Alert>)
               }
            
