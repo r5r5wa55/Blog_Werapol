@@ -31,16 +31,16 @@ export const  signup = async(req,res,next)=>{
 export const signin = async(req,res,next)=>{
     const {email,password} = req.body
     if(!email || !password || email===''||password===''){
-        next(errorHandler(400,'all field'));
+        return next(errorHandler(400,'ข้อมูลไม่ครบถ้วน'));
     }
     try {
         const vaidlUser = await User.findOne({email})
         if(!vaidlUser){
-            next(404,'ไม่มีผู้ใช้')
+          return  next(errorHandler(404,'ไม่มีอีเมลผู้ใช้นี้'))
         }
         const vaildPassword = bcryptjs.compareSync(password,vaidlUser.password)
         if(!vaildPassword){
-           return next(400,'รหัสผ่านไม่ถูกต้อง')
+           return next(errorHandler(400,'รหัสผ่านไม่ถูกต้อง'))
         }
         const token = jwt.sign({id:vaidlUser._id},process.env.JWT_SECRET);
         const {password:pass,...rest}=vaidlUser._doc
