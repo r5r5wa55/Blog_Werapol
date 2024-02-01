@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link ,useNavigate } from "react-router-dom";
+import OAuth from "../component/OAuth";
 
 
 export default function SignUp() {
@@ -83,8 +84,8 @@ export default function SignUp() {
                      <span>Loading...</span></>
                   ):('sign up')
                 }
-             
                 </Button>
+                <OAuth />
             </form>
             <div className="flex mt-2 ">
               <span>Have an account? 

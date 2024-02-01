@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link ,useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSilce'
+import OAuth from "../component/OAuth";
 
 export default function SignIn() {
   const [formData ,setFormData]=useState({})
@@ -20,7 +21,7 @@ export default function SignIn() {
   const handleSubmit= async (e) =>{
     e.preventDefault();
   
-    if(!formData.email|| ! formData.password){
+    if(!formData.email|| !formData.password){
       return dispath(signInFailure('กรอกข้อความให้ครบ'))
     }
 
@@ -35,12 +36,12 @@ export default function SignIn() {
 
     
       const data = await res.json();
-      if(data.success===false){
-        
-        dispath(signInFailure(data.message))
-
-        
+      if (data.success === false) {
+        dispath(signInFailure(data.message));
       }
+
+
+      
 
       if(res.ok){
         dispath(signInSuccess(data))
@@ -85,8 +86,8 @@ export default function SignIn() {
                      <span>Loading...</span></>
                   ):('sign in')
                 }
-             
                 </Button>
+                <OAuth />
             </form>
             <div className="flex mt-2 ">
               <span>Dont Have an account? 
