@@ -27,20 +27,20 @@ export default function Header() {
         </form>
   
         <Button className=" lg:hidden w-12 h-10" color="gray" pill><AiOutlineSearch/></Button>
-        <div className="flex gap-2 md:order-2">
+        <div className="flex gap-2 md:order-2 rounded-full">
           <Button className="w-12 h-10 sm:inline hidden" color="gray" pill onClick={()=>{dispatch(toggleTheme())}}>
-            {theme==='light'?    <FaSun />:<FaMoon />}
+            {theme==='light'?<FaSun />:<FaMoon />}
         
           </Button>
           {currenUser?
             (<Dropdown arrowIcon={false}
             inline
-            label={<Avatar alt="user" img={currenUser.profilePicture}></Avatar>}>
+            label={<Avatar alt="user" rounded img={currenUser.profilePicture}></Avatar>}>
               <Dropdown.Header>
                 <span className="block m-x text-sm ">{currenUser.username}</span>
                 <span className="block m-x text-sm truncate">{currenUser.email}</span>
               </Dropdown.Header>
-                <Link to='/dashbord?tab=profile'>
+                <Link to='/dashboard?tab=profile'>
                   <Dropdown.Item>Profile</Dropdown.Item>
                 </Link>
                 <Dropdown.Divider />
