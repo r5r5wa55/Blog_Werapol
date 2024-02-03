@@ -13,6 +13,6 @@ const  themeSlien =createSlice({
         }
     }
 })
-console.log(themeSlien);
+
 export const {toggleTheme} = themeSlien.actions;
 export default themeSlien.reducer;
