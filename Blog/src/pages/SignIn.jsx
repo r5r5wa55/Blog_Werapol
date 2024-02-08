@@ -56,8 +56,8 @@ export default function SignIn() {
   }
   return (
     <div>
-      <div className="mt-20 min-h-screen">
-        <div className=" flex flex-col md:flex-row md:items-center p-3 flex-1 gap-5 max-w-3xl mx-auto ">
+      <div className=" min-h-screen mt-36 md:mt-auto">
+        <div className=" flex flex-col md:flex-row md:items-center p-3 flex-1 gap-5 max-w-3xl m-auto md:h-svh">
           {/* ซ้าย */}
           <div className="flex-1">
             <Link to="/" className="self-center whitespace-nowrap text-3xl font-semibold dark:text-white ">
