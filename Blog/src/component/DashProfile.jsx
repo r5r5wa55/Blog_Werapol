@@ -69,16 +69,16 @@ export default function DashProfile() {
       ()=>{
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         setImageFileUrl(downloadURL);
-        
+        setImageFileUploadError(null);
       });
     }
   );
 };
 
   return (
-    <div className="max-w-lg w-full mx-auto min-h-screen">
-      <div className=" w-full h-full text-center">
-        <h1 className="text-3xl font-bold mt-10">Profile</h1>
+    <div className="max-w-lg w-full m-auto ">
+      <div className="  text-center">
+        <h1 className="text-3xl font-bold ">Profile</h1>
         <form className="flex flex-col gap-4 ">
             <input type="file" 
             accept="image/*" 
@@ -86,9 +86,7 @@ export default function DashProfile() {
             ref={filePicker} 
             hidden
               />
-            <div className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full"   onClick={() => filePicker.current.click()} >
-           
-
+            <div className="relative w-64 h-64 self-center cursor-pointer shadow-md overflow-hidden rounded-full my-10"   onClick={() => filePicker.current.click()} >
               {imageFileUploadProgress && (
               <CircularProgressbar
                   value={imageFileUploadProgress || 0}
