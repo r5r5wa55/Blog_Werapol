@@ -35,7 +35,7 @@ export default function Header() {
           {currenUser?
             (<Dropdown arrowIcon={false}
             inline
-            label={<Avatar alt="user" rounded img={currenUser.profilePicture}></Avatar>}>
+            label={<Avatar alt="user"   rounded img={currenUser.profilePicture}></Avatar>}>
               <Dropdown.Header>
                 <span className="block m-x text-sm ">{currenUser.username}</span>
                 <span className="block m-x text-sm truncate">{currenUser.email}</span>
