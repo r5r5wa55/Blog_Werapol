@@ -1,7 +1,7 @@
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, Modal, TextInput } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
-import { useSelector  } from "react-redux"
-
+import { useSelector } from "react-redux"
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import {
   getDownloadURL,
   getStorage,
@@ -11,13 +11,13 @@ import {
 import { app } from '../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { upDateStart ,upDateSuccess,upDateFailure} from '../../src/redux/user/userSilce';
+import { upDateStart ,upDateSuccess,upDateFailure,deleteUserFailure,deleteUserStart,deleteUserSuccess} from '../../src/redux/user/userSilce';
 import { useDispatch } from "react-redux"
-
+import { useNavigate } from "react-router-dom";
 
 
 export default function DashProfile() {
-  const {currenUser} = useSelector(state => state.user)
+  const {currenUser,error} = useSelector(state => state.user)
   const [imageFileUrl,setImageFileUrl] = useState(null)
   const [imageFile ,setimageFile] = useState(null)
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -26,8 +26,8 @@ export default function DashProfile() {
   const [UserSuccess,setUserSuccess] = useState(null);
   const [UserError,setUserError] = useState(null);
   const [formData ,setFormData] = useState([])
-
-
+  const [modle ,setModle] = useState(false)
+  const navigator = useNavigate();
 
   const filePicker = useRef();
   const dispatch=useDispatch();
@@ -92,53 +92,70 @@ export default function DashProfile() {
 
 
 
-};
-const handleChange=(e)=>{
+  };
+  const handleChange=(e)=>{
   setFormData({...formData,[e.target.id]:e.target.value})
-}
-
-const handleSubmit= async (e)=>{
-  setUserError(null)
-  setUserSuccess(null)
-
-  e.preventDefault();
-  if(Object.keys(formData).length===0){
-    setUserError("No chang")
-    
-    return;
   }
-  if(imageFileUploading){
-    setUserError("Please wait image Upload")
-    return;
-  }
-  try {
-    dispatch(upDateStart());
-    const res = await fetch(`/api/user/update/${currenUser._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    const data = await res.json();
-    if(!res.ok){
-      dispatch(upDateFailure(data.message));
-    }else{
-      dispatch(upDateSuccess(data))
-      setUserSuccess("User Profile update Successfully")
-      setTimeout(()=>{
-        setUserSuccess(null)
-      },1500)
+
+  const handleSubmit= async (e)=>{
+    setUserError(null)
+    setUserSuccess(null)
+
+    e.preventDefault();
+    if(Object.keys(formData).length===0){
+      setUserError("No chang")
+      
+      return;
     }
-  } catch (error) {
-      dispatch(upDateFailure(error.message))
+    if(imageFileUploading){
+      setUserError("Please wait image Upload")
+      return;
+    }
+    try {
+      dispatch(upDateStart());
+      const res = await fetch(`/api/user/update/${currenUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json();
+      if(!res.ok){
+        dispatch(upDateFailure(data.message));
+      }else{
+        dispatch(upDateSuccess(data))
+        setUserSuccess("User Profile update Successfully")
+        setTimeout(()=>{
+          setUserSuccess(null)
+        },1500)
+      }
+    } catch (error) {
+        dispatch(upDateFailure(error.message))
+    }
+    // console.log(Object.keys(formData));
   }
 
+  const handleDeleteUser =async ()=>{
+    setModle(false);
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currenUser._id}`,{
+        method:'DELETE',
+      })
+      const data = await res.json()
+      if(!res.ok){
+        dispatch(deleteUserFailure(data.message))
+      }else{
+        navigator('/sign-in')
+        dispatch(deleteUserSuccess(data))
+      }
+    } catch (error) {
+        dispatch(deleteUserFailure(error.message))
+    }
 
-
-  console.log(Object.keys(formData));
-}
-console.log(formData);
+  }
+  
   return (
     <div className="max-w-lg w-full m-auto ">
       <div className="  text-center">
@@ -154,7 +171,7 @@ console.log(formData);
               {imageFileUploadProgress && (
               <CircularProgressbar
                   value={imageFileUploadProgress || 0}
-                  text={`${imageFileUploadProgress}%`}
+                  text={`${imageFileUploadProgress}`}
                   strokeWidth={5}
                   styles={{
                     root: {
@@ -179,7 +196,7 @@ console.log(formData);
                   imageFileUploadProgress < 100 &&
                   'opacity-60'
                 }`}
-                src={imageFileUrl || currenUser.profilePicture} 
+                src={imageFileUrl || currenUser.profilePicture}
                 alt="" 
            
               />
@@ -206,21 +223,50 @@ console.log(formData);
             <Button gradientDuoTone='purpleToBlue' outline type="submit">UpLoad </Button>
         </form>
         <div className="flex justify-between mb-4">
-          <span className="cursor-pointer text-red-600 dark:text-red-400">Delete Account</span>
+          <span 
+            className="cursor-pointer text-red-600 dark:text-red-400"
+            onClick={()=>setModle(true)}
+          >
+            Delete Account
+          </span>
           <span>Sign Out</span>
         </div>
-        {imageFileUploadError &&
+          {imageFileUploadError &&
                  <Alert color='red'>{imageFileUploadError}</Alert>
-              }
-              {
-                
-                UserSuccess && 
-                <Alert color='green'>{UserSuccess}</Alert>
-              }
-              {
-                UserError &&
-                <Alert color='red'>{UserError}</Alert>
-              }
+          }
+          {
+            
+            UserSuccess && 
+            <Alert color='green'>{UserSuccess}</Alert>
+          }
+          {
+            UserError &&
+            <Alert color='red'>{UserError}</Alert>
+          }
+           {
+            error &&
+            <Alert color='red'>{error}</Alert>
+          }
+          <Modal show={modle} size="md" onClose={() => setModle(false)} popup>
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <HiOutlineExclamationCircle className="mx-auto mb-4 h-20 w-20 text-gray-400 dark:text-gray-200" />
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  Are you sure you want to delete this product?
+                </h3>
+                <div className="flex justify-center gap-4">
+                  <Button color="failure" onClick={handleDeleteUser}>
+                    {"Yes, I'm sure"}
+                  </Button>
+                  <Button color="gray" onClick={() => setModle(false)}>
+                    No, cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+       
       </div>
       
     </div>

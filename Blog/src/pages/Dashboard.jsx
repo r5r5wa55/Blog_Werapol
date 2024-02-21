@@ -6,23 +6,24 @@ import DashSidebar from "../component/DashSidebar";
 
 export default function Dashboard() {
   const location = useLocation();
-  const [tab,setTab] = useState();
-  useEffect(()=>{
-    const urlPriaramas = new URLSearchParams(location.search);
-    const tabFromUrl = urlPriaramas.get('tab')
-    console.log(tabFromUrl);
-    if(tabFromUrl){
-      setTab(tabFromUrl)
+  const [tab, setTab] = useState('');
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tabFromUrl = urlParams.get('tab');
+    if (tabFromUrl) {
+      setTab(tabFromUrl);
     }
-  },[location.search])
+  }, [location.search]);
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      <div>
+    <div className='min-h-screen flex flex-col md:flex-row'>
+      <div className='md:w-56'>
+        {/* Sidebar */}
         <DashSidebar />
       </div>
-
-      {/* profile */}
-      {tab==='profile'&& <DashProfile />}
+      {/* profile... */}
+      {tab === 'profile' && <DashProfile />}
+      {/* posts... */}
     </div>
-  )
+  );
 }
+

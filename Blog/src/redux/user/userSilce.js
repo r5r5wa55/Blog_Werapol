@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     currenUser: null,
-    error:null,
-    loading:false
-}
+    error: null,
+    loading: false,
+  };
 
 const userSlice = createSlice({
     name:'user',
@@ -37,11 +37,38 @@ const userSlice = createSlice({
             state.loading=false;
             state.error=action.payload;
         },
+        
+       
+        
+        deleteUserStart: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        deleteUserSuccess: (state) => {
+            state.currenUser = null;
+            state.loading = false;
+            state.error = null;
+        },
+        deleteUserFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
     }
+    
 
 })
 
 // Action creators are generated for each case reducer function
-export const { signInStart, signInSuccess, signInFailure , upDateStart ,upDateSuccess,upDateFailure} = userSlice.actions
+export const { 
+    signInStart, 
+    signInSuccess, 
+    signInFailure, 
+    upDateStart,
+    upDateSuccess,
+    upDateFailure,
+    deleteUserFailure,
+    deleteUserStart,
+    deleteUserSuccess
+} = userSlice.actions
 
 export default userSlice.reducer
