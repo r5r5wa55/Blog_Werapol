@@ -13,11 +13,11 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { upDateStart ,upDateSuccess,upDateFailure,deleteUserFailure,deleteUserStart,deleteUserSuccess, signoutSuccess} from '../../src/redux/user/userSilce';
 import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function DashProfile() {
-  const {currenUser,error} = useSelector(state => state.user)
+  const {currenUser,error,loading} = useSelector(state => state.user)
 
   const [imageFileUrl,setImageFileUrl] = useState(null)
   const [imageFile ,setimageFile] = useState(null)
@@ -238,9 +238,27 @@ export default function DashProfile() {
                 defaultValue='*********'
               onChange={handleChange}
             /> 
-            <Button gradientDuoTone='purpleToBlue' outline type="submit">UpLoad </Button>
+            <Button gradientDuoTone='purpleToBlue' outline type="submit" disabled={loading || imageFileUploading } >
+              {loading ? 'loading...' : 'update'}
+            
+            </Button>
+            {
+              currenUser.isAdmin && ( 
+              <Link to='/create-post'> 
+                <Button 
+                  gradientDuoTone='purpleToPink'
+                  type="submit"
+                  className="w-full"
+
+                  >
+                  Create a post
+                </Button>
+              </Link>
+            )
+          
+            }
         </form>
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between mt-5">
           <span 
             className="cursor-pointer text-red-600 dark:text-red-400"
             onClick={()=>setModle(true)}
