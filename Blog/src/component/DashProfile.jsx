@@ -11,13 +11,14 @@ import {
 import { app } from '../firebase';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { upDateStart ,upDateSuccess,upDateFailure,deleteUserFailure,deleteUserStart,deleteUserSuccess} from '../../src/redux/user/userSilce';
+import { upDateStart ,upDateSuccess,upDateFailure,deleteUserFailure,deleteUserStart,deleteUserSuccess, signoutSuccess} from '../../src/redux/user/userSilce';
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom";
 
 
 export default function DashProfile() {
   const {currenUser,error} = useSelector(state => state.user)
+
   const [imageFileUrl,setImageFileUrl] = useState(null)
   const [imageFile ,setimageFile] = useState(null)
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -156,6 +157,23 @@ export default function DashProfile() {
 
   }
   
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        navigator('/sign-in')
+        window.location.reload(false)
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="max-w-lg w-full m-auto ">
       <div className="  text-center">
@@ -167,7 +185,7 @@ export default function DashProfile() {
             ref={filePicker} 
             hidden
               />
-            <div className="relative w-64 h-64 self-center cursor-pointer shadow-md  rounded-full my-10"   onClick={() => filePicker.current.click()} >
+            <div className="relative w-64 h-64 self-center cursor-pointer shadow-md  rounded-full my-10 cyr"   onClick={() => filePicker.current.click()} >
               {imageFileUploadProgress && (
               <CircularProgressbar
                   value={imageFileUploadProgress || 0}
@@ -196,10 +214,11 @@ export default function DashProfile() {
                   imageFileUploadProgress < 100 &&
                   'opacity-60'
                 }`}
-                src={imageFileUrl || currenUser.profilePicture}
+                src={!currenUser.profilePicture ? imageFileUrl : currenUser.profilePicture}
                 alt="" 
            
               />
+             
             </div>  
               <TextInput 
                 id='username'
@@ -229,7 +248,7 @@ export default function DashProfile() {
           >
             Delete Account
           </span>
-          <span>Sign Out</span>
+          <span onClick={handleSignout} className="cursor-pointer">Sign Out</span>
         </div>
           {imageFileUploadError &&
                  <Alert color='red'>{imageFileUploadError}</Alert>
