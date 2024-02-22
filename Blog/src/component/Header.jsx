@@ -1,5 +1,5 @@
 import { Avatar, Button, Dropdown, Navbar ,TextInput } from "flowbite-react";
-import { Link ,useLocation, useNavigate } from "react-router-dom";
+import { Link ,useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai"; 
 import {FaMoon,FaSun} from 'react-icons/fa';
 import { useSelector ,useDispatch} from 'react-redux';
@@ -8,7 +8,7 @@ import { signoutSuccess } from "../redux/user/userSilce";
 
 
 export default function Header() {
-  const navigator = useNavigate();
+
   const path = useLocation().pathname;
   const {currenUser} = useSelector(state => state.user)
   const {theme} = useSelector(state => state.theme)
@@ -22,8 +22,7 @@ export default function Header() {
       if (!res.ok) {
         console.log(data.message);
       } else {
-        navigator('/sign-in')
-        window.location.reload(false)
+     
         dispatch(signoutSuccess());
       }
     } catch (error) {

@@ -166,8 +166,7 @@ export default function DashProfile() {
       if (!res.ok) {
         console.log(data.message);
       } else {
-        navigator('/sign-in')
-        window.location.reload(false)
+   
         dispatch(signoutSuccess());
       }
     } catch (error) {
