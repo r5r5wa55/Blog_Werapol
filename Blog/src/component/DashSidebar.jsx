@@ -1,15 +1,19 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import {HiUser,HiArrowRight} from "react-icons/hi"
+import {HiUser,HiArrowRight, HiDocumentText} from "react-icons/hi"
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSilce";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+
+
 
 export default function DashSidebar() {
     const dispatch = useDispatch();
   
     const location = useLocation();
     const [tab,setTab] = useState();
+    const {currenUser}= useSelector((state)=>state.user)
     useEffect(()=>{
         const urlPa = new URLSearchParams(location.search)
         const tabFromUrl = urlPa.get('tab')
@@ -37,18 +41,35 @@ export default function DashSidebar() {
     
       <Sidebar  className="w-full md:w-64">
         <Sidebar.Items>
-            <Sidebar.ItemGroup >
+            <Sidebar.ItemGroup className="flex flex-col gap-1">
                 <Link to='/dashboard?tab=profile'>
                     <Sidebar.Item 
                         active={tab==='profile'} 
                         icon={HiUser} 
-                        label={'user'}
+                        label={currenUser.isAdmin ? 'Admin':'User'}
                         labelColor='dark'
                         as='div'
                     >
-                        profile
+                        Profile
                     </Sidebar.Item>
-                </Link>
+                  </Link>
+
+                  {
+                    currenUser.isAdmin && 
+                    (
+                      <Link to='/dashboard?tab=posts'>
+                      <Sidebar.Item 
+                          active={tab==='posts'} 
+                          icon={HiDocumentText}   
+                          labelColor='dark'
+                          as='div'
+                      >
+                          Posts
+                      </Sidebar.Item>
+                  </Link> 
+                    )
+                  }
+                 
                  <Sidebar.Item 
                     className='cursor-pointer'
                     icon={HiArrowRight} 
