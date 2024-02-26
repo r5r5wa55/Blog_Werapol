@@ -13,7 +13,7 @@ export const create = async (req,res,next)=>{
 
     }
     const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9ก-๙]/g, '-');
-    const newPost  = new post ( {
+    const newPost  = new Post ( {
         ...req.body,slug,userId:req.user.id
     })
     try {
