@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 export default function DashPost() {
   
   const { currenUser } = useSelector((state) => state.user);
-  
   const [userPosts ,setUserPosts] = useState([]);
-  console.log(userPosts);
+  const [showMore,setShowMore] = useState(true);
+
+  // console.log(userPosts);
   useEffect(()=>{ 
     const fetchPosts = async ()=>{
       try {
@@ -19,8 +20,9 @@ export default function DashPost() {
         if (res.ok) {
           setUserPosts(data.posts);
           if (data.posts.length < 9) {
-            // setShowMore(false);
+            setShowMore(false);
           }
+          
         }
       } catch (error) {
         console.log(error.message);
@@ -31,6 +33,27 @@ export default function DashPost() {
     if(currenUser.isAdmin){fetchPosts()}
   },[currenUser._id])
 
+  const handleShowMore = async()=>{
+    const startIndex = userPosts.length;
+    console.log(startIndex);
+    try {
+      const res = await fetch(`/api/post/getposts?userId=${currenUser._id}&startIndex=${startIndex}`);
+      const data = await res.json()
+      console.log(data);
+      if(res.ok){
+          setUserPosts((oldPost)=>[...oldPost, ...data.posts])
+        if(data.posts.length < 9){
+          setShowMore(false)
+        }
+      
+       
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-700">
       {
@@ -38,7 +61,7 @@ export default function DashPost() {
         (
           <>
          
-              <Table  hoverable className="shadow-sm">
+              <Table  hoverable className="shadow-xl">
                 <Table.Head>
                   <Table.HeadCell>Data update</Table.HeadCell>
                   <Table.HeadCell>Post image</Table.HeadCell>
@@ -56,11 +79,11 @@ export default function DashPost() {
                         <Table.Cell>{new Date(post.updatedAt).toLocaleDateString()}</Table.Cell>
                         <Table.Cell>
                           <Link to={`/post/${post.slug}`}>
-                            <img src={post.image} alt={post.title} className="w-20 h-10 object-cover bg-gray-700 "/>
+                            <img src={post.image} alt={post.title} className="w-36 h-10 object-cover bg-gray-700  "/>
                           </Link>
                         </Table.Cell>
-                        <Table.Cell>
-                            <Link to={'/post/${post.slug}'}>{post.title}</Link>
+                        <Table.Cell className="truncate overflow-hidden ...   inline-block w-[230px] lg:w-auto lg:text-wrap">
+                            <Link to={'/post/${post.slug}'} className="">{post.title}</Link>
                         </Table.Cell>
                         <Table.Cell>
                             {post.category}
@@ -81,6 +104,12 @@ export default function DashPost() {
 
                 ))}
               </Table>
+              {
+                showMore && 
+                (
+                  <div className="w-full text-center py-5 cursor-pointer" onClick={handleShowMore}>Show More</div>
+                )
+              }
     
           </>
         ):
@@ -88,6 +117,7 @@ export default function DashPost() {
           <p>You have no posts yet</p>
         )
       }
+   
     </div>
   )
 }
