@@ -87,7 +87,7 @@ export default function DashPost() {
          
               <Table  hoverable className="shadow-xl">
                 <Table.Head>
-                  <Table.HeadCell>Data update</Table.HeadCell>
+                  <Table.HeadCell className="w-40">Data update</Table.HeadCell>
                   <Table.HeadCell>Post image</Table.HeadCell>
                   <Table.HeadCell>Post title</Table.HeadCell>
                   <Table.HeadCell>Category</Table.HeadCell>
