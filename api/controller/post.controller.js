@@ -1,4 +1,5 @@
 import Post from "../models/post.model.js";
+import User from "../models/user.model.js";
 
 
 import { errorHandler } from "../utils/error.js"
@@ -94,7 +95,7 @@ export const updatepost = async(req,res,next)=>{
       req.params.postId,{
         $set:{
           title:req.body.title,
-          content:req.body.conent,
+          content:req.body.content,
           category:req.body.category,
           image:req.body.image
         }
@@ -107,3 +108,48 @@ export const updatepost = async(req,res,next)=>{
     next(error)
   }
 } 
+
+export const getusers = async(req,res,next)=>{
+
+  if(!req.user.isAdmin){
+    return next(errorHandler(403,'You are not allowed to see all users'))
+  }
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirenction = parseInt(req.query.sort) || 'asc';
+    console.log(limit);
+    console.log(sortDirenction);
+
+    const users = await User.find()
+    .sort({createAdAt:sortDirenction})
+    .skip(startIndex)
+    .limit(limit)
+
+    const usersWithOutPassword = users.map((user)=>{
+      const {password , ...rest} = user._doc;
+      return rest;
+    })
+
+    const totalUsers = await User.countDocuments();
+    const now = new Date();
+
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth()-1,
+      now.getDate()
+    )
+    const lastMonthUsers = await User.countDocuments({
+      createdAt:{$gte:oneMonthAgo},
+    });
+    res.status(200).json({
+      user:usersWithOutPassword,
+      totalUsers,
+      lastMonthUsers
+    })
+  } catch (error) {
+    console.log(error);
+  }
+
+
+}
