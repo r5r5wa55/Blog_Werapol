@@ -118,8 +118,9 @@ export const getusers = async(req,res,next)=>{
     const startIndex = parseInt(req.query.startIndex) || 0
     const limit = parseInt(req.query.limit) || 9;
     const sortDirenction = parseInt(req.query.sort) || 'asc';
-    console.log(limit);
-    console.log(sortDirenction);
+    // console.log(startIndex);
+    // console.log(limit);
+    // console.log(sortDirenction);
 
     const users = await User.find()
     .sort({createAdAt:sortDirenction})
