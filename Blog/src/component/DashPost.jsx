@@ -107,7 +107,7 @@ export default function DashPost() {
                           </Link>
                         </Table.Cell>
                         <Table.Cell className="truncate overflow-hidden ...  inline-block   w-[230px] lg:w-auto lg:text-wrap p-8">
-                            <Link to={'/post/${post.slug}'} className="">{post.title}</Link>
+                            <Link to={`/post/${post.slug}`} className="">{post.title}</Link>
                         </Table.Cell>
                         <Table.Cell>
                             {post.category}
