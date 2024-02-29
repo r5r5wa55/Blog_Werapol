@@ -19,7 +19,7 @@ export default function DashUser() {
         const res = await fetch(`/api/user/getusers`);
         
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         if (res.ok) {
             setUsers(data.user);
           if (data.user.length < 9) {
@@ -61,21 +61,22 @@ export default function DashUser() {
  
 
   const handleDeleteUser = async () => {
-    setShowModle(false);
+    console.log(userIdToDelete);
     try {
-      const res = await fetch(
-        `/api/user/deleteuser/${userIdToDelete}/${currenUser._id}`,
+      const res = await fetch(`/api/user/delete/${userIdToDelete}`,
         {
           method: 'DELETE',
         }
       );
       const data = await res.json();
-      if (!res.ok) {
-        console.log(data.message);
-      } else {
+      if (res.ok) {
         setUsers((prev) =>
           prev.filter((user) => user._id !== userIdToDelete)
         );
+        setShowModle(false);
+      } else {
+        console.log(data.message);
+    
       }
     } catch (error) {
       console.log(error.message);
@@ -154,7 +155,7 @@ export default function DashUser() {
                   Are you sure you want to delete this user?
                 </h3>
                 <div className="flex justify-center gap-4">
-                  <Button color="failure" onClick={handleDeleteUser}>
+                  <Button color="failure" onClick={handleDeleteUser} >
                     {"Yes, I'm sure"}
                   </Button>
                   <Button color="gray" onClick={() => setShowModle(false)}>
