@@ -2,6 +2,7 @@ import { Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import CallToAction from "../component/CallToAction";
+import CommentSection from "../component/CommentSection";
 
 
 export default function PostPage() {
@@ -69,6 +70,9 @@ export default function PostPage() {
         </div>
         <div className="max-w-7xl mx-auto p-3">
             <CallToAction />
+        </div>
+        <div className="max-w-7xl mx-auto p-5">
+            <CommentSection postId={post._id}/>
         </div>
     </main>
   )
