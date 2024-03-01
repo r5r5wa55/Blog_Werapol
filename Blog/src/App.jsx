@@ -13,6 +13,7 @@ import PrivateRoute from "./component/PrivateRoute";
 import AdminPrivateRoute from "./component/AdminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from "./pages/UpdatePost";
+import PostPage from "./pages/PostPage";
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/update-post/:postId" element={<UpdatePost />}/> 
         </Route>
         <Route path="/projects" element={<Projects />}/> 
+        <Route path="/post/:postSlug" element={<PostPage />}/> 
       </Routes>
       <FooterCom />
     </BrowserRouter>
