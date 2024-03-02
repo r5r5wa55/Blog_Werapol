@@ -1,20 +1,28 @@
+/* eslint-disable react/prop-types */
 
 
 import { Alert, Button, Textarea } from 'flowbite-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'
 import { Link } from 'react-router-dom';
+import Comment from './Comment';
 
-export default function CommentSection() {
+export default function CommentSection({postId}) {
     const {currenUser} = useSelector((state)=>state.user)
     const [comment ,setcomment] = useState('');
+    const [comments,setcomments] = useState([])
     const [commentError,setcommentError] = useState(null)
-
-    // console.log(comment);
+    // console.log(comments);
+        // console.log(comments);
     const hadleSubmit = async(e)=>{
-        // console.log(e);
-        // console.log(e.target[0].value);
         e.preventDefault();
+        if(comment ===''){
+            setcommentError('กรอกข้อมูล')
+                    console.log(comment);
+            return ;
+        }
+        // console.log(e.target[0].value);
+
     
         if(comment.length > 200){
             return ;
@@ -25,13 +33,14 @@ export default function CommentSection() {
                 headers:{
                     'content-Type':'application/json',
                 },
-                body:JSON.stringify({content:comment,userId:currenUser._id})
+                body:JSON.stringify({content:comment,postId:postId,userId:currenUser._id})
             })
             // eslint-disable-next-line no-unused-vars
             const data = await res.json();
             if(res.ok){
                 setcommentError(null)
                 setcomment('')
+                setcomments([data,...comments])
             }
         } catch (error) {
             setcommentError(error.message)
@@ -39,8 +48,26 @@ export default function CommentSection() {
         }
         
     }
+    useEffect(()=>{
+        
+        const getComment =async()=>{
+
+            try {
+                const res = await fetch(`/api/comment/getPostComments/${postId}`)
+                if(res.ok){
+                    const data = await res.json();
+                   
+                    setcomments(data)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getComment()
+    },[postId])
+    // console.log(comments);
   return (
-    <div>
+    <div className=''>
         {currenUser ? 
             (
                 <div className="w-full sm:max-w-4xl mx-auto">
@@ -77,10 +104,32 @@ export default function CommentSection() {
                 </div>
             </div>
             {commentError &&
-                <Alert className='m-3' color='red'>we</Alert> 
+                <Alert className='m-3' color='red'>{commentError}</Alert> 
             }
         </form>
-       
+            
+               <div className="max-w-4xl mx-auto m-5">
+                    {comments === 0 ?(
+                            <div>
+                                No Comment Yet!
+                            </div>
+                        ):
+                        (
+                            <div className='flex gap-2'>
+                                <span>Comment</span>
+                                <div className="">{comments.length}</div>
+                            </div>
+                        )
+                    }
+               </div>
+                <div className="max-w-4xl mx-auto">
+                {
+                    comments?.map((comments)=>(
+                        <Comment className="" key={comments?._id} comments={comments} />
+                    
+                    ))
+                }
+            </div>
     </div>
     
   )
