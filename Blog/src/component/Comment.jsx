@@ -44,10 +44,10 @@ export default function Comment({comments,onLike}) {
             <div className="flex items-center dark:border-gray-700 max-w-fit gap-2">
                 <button 
                     type="button" 
-                    className={`text-gray-400 hover:text-blue-500 h-full text-sm${currenUser && comments.likes.includes(currenUser._id) && '!text-blue-500'}`} 
+                    className={`text-gray-400 hover:text-blue-500 h-full text-sm ${currenUser && comments.likes.includes(currenUser._id) && '!text-blue-500'}`} 
 
                     onClick={()=>onLike(comments._id) }
-                >
+                >   
                     <FaThumbsUp className="text-sm"/>
                 </button>   
                 <p className="text-sm h-5 m-0">
