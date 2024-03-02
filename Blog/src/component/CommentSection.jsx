@@ -4,7 +4,7 @@
 import { Alert, Button, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 
 export default function CommentSection({postId}) {
@@ -12,6 +12,7 @@ export default function CommentSection({postId}) {
     const [comment ,setcomment] = useState('');
     const [comments,setcomments] = useState([])
     const [commentError,setcommentError] = useState(null)
+    const navigate = useNavigate()
     // console.log(comments);
         // console.log(comments);
     const hadleSubmit = async(e)=>{
@@ -66,6 +67,36 @@ export default function CommentSection({postId}) {
         getComment()
     },[postId])
     // console.log(comments);
+
+    const handleLike = async(commentId)=> {
+        
+        try {
+            if(!currenUser){
+                navigate('/sign-in')
+                return ;
+            }
+            const res = await fetch(`/api/comment/likeComment/${commentId}`,
+                {method:'PUT',
+
+            });
+            if(res.ok){
+          
+                const data = await res.json();
+                setcomments(comments.map((comment)=>
+                        comment._id === commentId ? {
+                            ...comment,
+                            likes: data.likes,
+                            numberOfLike:data.likes.length,
+                        }:comment
+                    )
+                )
+        }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
   return (
     <div className=''>
         {currenUser ? 
@@ -122,10 +153,10 @@ export default function CommentSection({postId}) {
                         )
                     }
                </div>
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-3xl mx-auto">
                 {
                     comments?.map((comments)=>(
-                        <Comment className="" key={comments?._id} comments={comments} />
+                        <Comment className="" key={comments._id} comments={comments} onLike={handleLike}/>
                     
                     ))
                 }

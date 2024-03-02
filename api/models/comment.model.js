@@ -17,14 +17,10 @@ const commentSchema = new mongoose.Schema({
             type:Array,
             default:[]
         },
-        likes:{
-            type:String,
-            require:true,
-        },
         numberOfLike:{
             type:Number,
-            require:0,
-        }
+            default:0,
+        },
 },{timestamps:true})
 
 const Comment = mongoose.model('Comment',commentSchema)
