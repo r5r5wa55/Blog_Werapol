@@ -97,6 +97,13 @@ export default function CommentSection({postId}) {
         }
     }
 
+    const handleEdit = async(comment,editedContents)=>{
+        setcomments(
+            comments.map((c)=>
+            c._id === comment._id ? {...c, content:editedContents}:c)
+        )
+    }
+
   return (
     <div className=''>
         {currenUser ? 
@@ -156,7 +163,7 @@ export default function CommentSection({postId}) {
                 <div className="max-w-3xl mx-auto">
                 {
                     comments?.map((comments)=>(
-                        <Comment className="" key={comments._id} comments={comments} onLike={handleLike}/>
+                        <Comment className="" key={comments._id} comments={comments} onLike={handleLike} onEdit={handleEdit}/>
                     
                     ))
                 }
