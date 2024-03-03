@@ -1,20 +1,23 @@
 /* eslint-disable react/prop-types */
 
 
-import { Alert, Button, Textarea } from 'flowbite-react';
+import { Alert, Button, Modal, Textarea } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {useSelector} from 'react-redux'
 import { Link , useNavigate } from 'react-router-dom';
 import Comment from './Comment';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 export default function CommentSection({postId}) {
     const {currenUser} = useSelector((state)=>state.user)
     const [comment ,setcomment] = useState('');
     const [comments,setcomments] = useState([])
     const [commentError,setcommentError] = useState(null)
-    const navigate = useNavigate()
-    // console.log(comments);
-        // console.log(comments);
+    const [showModle ,setShowModle] = useState(false);
+    const navigate = useNavigate();
+    const [commentToDelete ,setCommentToDelete] = useState(null)
+        console.log(comments);
+        // console.log(comment);
     const hadleSubmit = async(e)=>{
         e.preventDefault();
         if(comment ===''){
@@ -104,6 +107,28 @@ export default function CommentSection({postId}) {
         )
     }
 
+    const handleDelete = async(commentId)=>{
+     
+        try {
+            if(!currenUser){
+                navigate('/sign-in')
+                return;
+            }
+            const res = await fetch(`/api/comment/deleteComment/${commentId}`,{
+                method:'DELETE',
+            })
+            if(res.ok){
+          
+                // eslint-disable-next-line no-unused-vars
+                const data = await res.json()
+                setcomments(comments.filter((comment)=>comment._id !== commentId))
+                setShowModle(false)
+              
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
   return (
     <div className=''>
         {currenUser ? 
@@ -163,12 +188,43 @@ export default function CommentSection({postId}) {
                 <div className="max-w-3xl mx-auto">
                 {
                     comments?.map((comments)=>(
-                        <Comment className="" key={comments._id} comments={comments} onLike={handleLike} onEdit={handleEdit}/>
+                        <Comment 
+                            className="" 
+                            key={comments._id} 
+                            comments={comments} 
+                            onLike={handleLike} 
+                            onEdit={handleEdit}
+                            onDelete={(commentId)=>{
+                                setShowModle(true)
+                                setCommentToDelete(commentId)
+                            }}
+                        />
                     
                     ))
                 }
             </div>
+
+            <Modal show={showModle} size="md" onClose={() => setShowModle(false)} popup>
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <HiOutlineExclamationCircle className="mx-auto mb-4 h-20 w-20 text-gray-400 dark:text-gray-200" />
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  Are you sure you want to delete this comment?
+                </h3>
+                <div className="flex justify-center gap-4">
+                  <Button color="failure" onClick={()=>handleDelete(commentToDelete)}>
+                    {"Yes, I'm sure"}
+                  </Button>
+                  <Button color="gray" onClick={() => setShowModle(false)} >
+                    No, cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+            </Modal>
     </div>
+    
     
   )
 }

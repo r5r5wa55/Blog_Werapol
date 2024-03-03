@@ -145,7 +145,7 @@ export default function DashPost() {
           <p>You have no posts yet</p>
         )
       }
-        <Modal show={showModle} size="md" onClose={() => setShowModle(false)} popup>
+          <Modal show={showModle} size="md" onClose={() => setShowModle(false)} popup>
             <Modal.Header />
             <Modal.Body>
               <div className="text-center">
