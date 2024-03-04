@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux'
 import { Link , useNavigate } from 'react-router-dom';
 import Comment from './Comment';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import PostCard from './PostCard';
 
 export default function CommentSection({postId}) {
     const {currenUser} = useSelector((state)=>state.user)
@@ -14,9 +15,10 @@ export default function CommentSection({postId}) {
     const [comments,setcomments] = useState([])
     const [commentError,setcommentError] = useState(null)
     const [showModle ,setShowModle] = useState(false);
+    const [recentPost ,setRecenPost] = useState()
     const navigate = useNavigate();
     const [commentToDelete ,setCommentToDelete] = useState(null)
-        console.log(comments);
+        // console.log(comments);
         // console.log(comment);
     const hadleSubmit = async(e)=>{
         e.preventDefault();
@@ -70,6 +72,22 @@ export default function CommentSection({postId}) {
         getComment()
     },[postId])
     // console.log(comments);
+    useEffect(()=>{
+        const fetchRecontPost =async()=>{
+         try {
+            const res = await fetch(`/api/post/getposts?limit=3`)
+            const data = await res.json()
+            if(res.ok){
+                setRecenPost(data.posts)
+            }
+         } catch (error) {
+            console.log(error);
+         }
+        }
+        fetchRecontPost()
+     
+    },[])
+     console.log(recentPost);
 
     const handleLike = async(commentId)=> {
         
@@ -202,7 +220,21 @@ export default function CommentSection({postId}) {
                     
                     ))
                 }
+     
             </div>
+            <div className="flex items-center justify-center my-5 text-3xl font-bold w-auto ">บทความอื่น</div>
+    
+                <div className="textxl mt-5 flex-col flex  lg:flex-row  items-center gap-5">
+                    {
+                    recentPost && (
+                        recentPost.map((post)=>(
+                            <PostCard  key={post._id} post={post}/>
+                        ))
+                    )
+                    }
+                </div>
+         
+
 
             <Modal show={showModle} size="md" onClose={() => setShowModle(false)} popup>
             <Modal.Header />
