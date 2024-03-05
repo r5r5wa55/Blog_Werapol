@@ -87,7 +87,7 @@ export default function CommentSection({postId}) {
         fetchRecontPost()
      
     },[])
-     console.log(recentPost);
+    //  console.log(recentPost);
 
     const handleLike = async(commentId)=> {
         
