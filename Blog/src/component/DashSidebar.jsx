@@ -87,7 +87,21 @@ export default function DashSidebar() {
                   }
                  
             
-                 
+                 {
+                    currenUser.isAdmin && 
+                    (
+                      <Link to='/dashboard?tab=comment'>
+                      <Sidebar.Item 
+                          active={tab==='comment'} 
+                          icon={HiUserGroup}   
+                          labelColor='dark'
+                          as='div'
+                      >
+                          Comment
+                      </Sidebar.Item>
+                  </Link> 
+                    )
+                  }
                  
                  <Sidebar.Item 
                     className='cursor-pointer'
