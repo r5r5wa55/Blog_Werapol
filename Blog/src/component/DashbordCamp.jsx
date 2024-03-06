@@ -158,7 +158,7 @@ export default function DashbordCamp() {
                 ))}
             </Table>
             </div>
-            <div className='flex flex-col w-full  md:w-auto  shadow-md p-2 rounded-md dark:bg-gray-800'>
+            <div className='flex flex-col w-full  md:w-full lg:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
             <div className='flex justify-between  p-3 text-sm font-semibold'>
                 <h1 className='text-center p-2'>Recent comments</h1>
                 <Button outline gradientDuoTone='purpleToPink'>
