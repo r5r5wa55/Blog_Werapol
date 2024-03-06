@@ -7,7 +7,7 @@ export default function PostCard({post}) {
 
     // console.log(post);
   return (
-    <div className='group relative w-full border border-teal-500 hover:border-2 h-[420px] overflow-hidden rounded-lg sm:w-[430px] transition-all '>
+    <div className='group relative w-full border border-teal-500 hover:border-2 h-[420px] overflow-hidden rounded-lg sm:w-auto transition-all '>
         <Link to={`/post/${post.slug}`} className="m-5">
         <img
             src={post.image}
