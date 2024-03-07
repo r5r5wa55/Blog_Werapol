@@ -16,7 +16,6 @@ export default function Search() {
   const [showMore, setShowMore] = useState(false);
 
   const location = useLocation();
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,6 +55,7 @@ export default function Search() {
   }, [location.search]);
 
   const handleChange = (e) => {
+    
     if (e.target.id === 'searchTerm') {
       setSidebarData({ ...sidebarData, searchTerm: e.target.value });
     }
@@ -130,6 +130,7 @@ export default function Search() {
               value={sidebarData.category}
               id='category'
             >
+              <option value='all'>All</option>
               <option value='uncategorized'>Uncategorized</option>
               <option value='reactjs'>React.js</option>
               <option value='nextjs'>Next.js</option>

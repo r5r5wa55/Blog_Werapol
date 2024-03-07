@@ -80,8 +80,10 @@ export default function DashbordCamp() {
     // console.log(lastMonthComments);
   return (
     <div className='p-3 md:mx-auto'>
-        <div className='flex-wrap flex gap-4 justify-center'>
-            <div className="flex justify-between items-center shadow-xl m-5 bg-gradient-to-r to-cyan-500 from-blue-500  p-5 rounded-lg  w-full  md:w-96 text-black dark:text-white">
+        <div className='flex-wrap flex justify-center'>
+
+            
+            <div className="flex justify-between items-center shadow-xl m-3 bg-gradient-to-r to-cyan-500 from-blue-500  p-5 rounded-lg  w-full  lg:w-96 text-black dark:text-white">
                 <div className="">
                     <span className="text-2xl">Total User</span>
                     <p className="text-3xl font-semibold ">{totalUsers}</p>
@@ -96,7 +98,7 @@ export default function DashbordCamp() {
             </div>
 
             
-            <div className="flex justify-between items-center shadow-xl m-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500   p-5 rounded-lg  w-full  md:w-96 text-black dark:text-white">
+            <div className="flex justify-between items-center shadow-xl m-3 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500   p-5 rounded-lg  w-full  lg:w-96 text-black dark:text-white">
                 <div className="">
                     <span className="text-2xl">Total Posts</span>
                     <p className="text-3xl font-semibold ">{totalPosts}</p>
@@ -111,7 +113,7 @@ export default function DashbordCamp() {
             </div>
 
 
-            <div className="flex justify-between items-center shadow-xl m-5 bg-gradient-to-r from-blue-600 to-emerald-500  p-5 rounded-lg  w-full  md:w-96 text-black dark:text-white">
+            <div className="flex justify-between items-center shadow-xl m-3 bg-gradient-to-r from-blue-600 to-emerald-500  p-5 rounded-lg  w-full  lg:w-96 text-black dark:text-white">
                 <div className="">
                     <span className="text-2xl">Total User</span>
                     <p className="text-3xl font-semibold ">{totalComments}</p>
@@ -183,7 +185,7 @@ export default function DashbordCamp() {
                 ))}
             </Table>
             </div>
-            <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
+            <div className='flex flex-col w-full lg:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
             <div className='flex justify-between  p-3 text-sm font-semibold'>
                 <h1 className='text-center p-2'>Recent posts</h1>
                 <Button outline gradientDuoTone='purpleToPink'>
