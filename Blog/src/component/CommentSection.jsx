@@ -224,7 +224,7 @@ export default function CommentSection({postId}) {
             </div>
             <div className="flex items-center justify-center my-5 text-3xl font-bold w-auto ">บทความอื่น</div>
     
-                <div className="textxl mt-5 flex-col flex  lg:flex-row  items-center gap-5">
+                <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {
                     recentPost && (
                         recentPost.map((post)=>(
