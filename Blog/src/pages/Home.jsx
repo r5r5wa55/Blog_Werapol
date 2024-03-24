@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom'
 import CallToAction from '../component/CallToAction'
 import { useEffect, useState } from 'react'
 import PostCard from '../component/PostCard'
-
+import { TypeAnimation } from 'react-type-animation';
 export default function Home() {
 
   const [posts,setPosts] = useState([]);
@@ -27,7 +27,23 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col max-w-6xl mx-auto lg:p-28 p-5 gap-6 ">
-        <h1 className="sm:text-5xl text-3xl  font-bold">Welcome to My Blog</h1>
+        <h1 className="sm:text-5xl text-3xl  font-bold">Blog</h1>
+          <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              'ความรู้',
+              2000, // wait 1s before replacing "Mice" with "Hamsters"
+              'ผลงาน',
+              2000,
+             
+            ]}
+            wrapper="span"
+            speed={50}
+            style={{ fontSize: '5em', display: 'inline-block', }}
+            repeat={Infinity}
+          />
+ 
+  
         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quas, ut! Ad impedit itaque ullam libero deserunt earum accusamus, nulla aliquam.</p>
         <div className="">
           <Link className="text-teal-500 font-bold hover:underline w-auto">View all posts</Link>

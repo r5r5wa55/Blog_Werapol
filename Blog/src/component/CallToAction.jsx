@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-
+import Github from '../assets/github.jpg'
 
 export default function CallToAction() {
   return (
@@ -16,7 +16,7 @@ export default function CallToAction() {
             </div>
             <div className="flex-1 p-7">
                 <img 
-                    src='https://github.githubassets.com/assets/social-2deb6d7d43e7.jpg' 
+                    src={Github}
                     alt="" 
                     
                 />  
