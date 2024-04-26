@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div>
       <div className="flex flex-col max-w-6xl mx-auto lg:p-28 p-5 gap-6 ">
-        <h1 className="sm:text-5xl text-3xl  font-bold">Blog</h1>
+        <h1 className="sm:text-5xl text-3xl  font-bold">Blog Werapol</h1>
           <TypeAnimation
             sequence={[
               // Same substring at the start will only be typed out once, initially
