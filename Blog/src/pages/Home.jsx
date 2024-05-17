@@ -31,7 +31,7 @@ export default function Home() {
           <TypeAnimation
             sequence={[
               // Same substring at the start will only be typed out once, initially
-              'ความรู้',
+              'ความรู้ test-git-upload',
               2000, // wait 1s before replacing "Mice" with "Hamsters"
               'ผลงาน',
               2000,
