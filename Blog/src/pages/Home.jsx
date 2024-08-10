@@ -8,6 +8,8 @@ export default function Home() {
 
   const [posts, setPosts] = useState([]);
 
+
+
   useEffect(() => {
     const fetchPost = async () => {
       try {

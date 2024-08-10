@@ -61,7 +61,7 @@ export default function SignIn() {
           {/* ซ้าย */}
           <div className="flex-1">
             <Link to="/" className="self-center whitespace-nowrap text-3xl font-semibold dark:text-white ">
-                <span className="text-white px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-700 rounded-lg">Blog</span>
+                <span className="text-white px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-700 rounded-lg">Bog</span>
                 Werapol
             </Link>
             <p className="my-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit quasi suscipit consequatur dolores tempore alias ratione provident laborum pariatur. Quaerat?</p>

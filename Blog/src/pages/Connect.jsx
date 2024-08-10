@@ -1,9 +1,32 @@
-import { Button } from 'flowbite-react';
-import React from 'react'
+import { Button, Spinner } from 'flowbite-react';
+import React, { useRef, useState } from 'react'
 import { BiSolidContact } from "react-icons/bi";
 import { MdEditLocationAlt } from "react-icons/md";
 import { AiFillSchedule } from "react-icons/ai";
+import emailjs from "@emailjs/browser"
 export default function Connect() {
+    const form = useRef()
+    const [loading, setLoading] = useState(false)
+    const [success,setSuccess] = useState(false)
+    const sendEmail = (e) => {
+        e.preventDefault();
+
+        emailjs.sendForm("service_ag2smic", "template_606ea3t", form.current, "a-kp4MqGB7bLXgMpD").then((result) => {
+            setLoading(true)
+            if (result.text === "OK") {
+                setLoading(false)
+                setSuccess(true)
+            }
+            console.log(result.text);
+
+        }), (error) => {
+            console.log(error.text);
+
+        }
+
+
+    }
+
     return (
         <div>
             <div className="w-full h-full bg-gray-900 dark:bg-slate-50 text-gray-50 dark:text-gray-800">
@@ -12,29 +35,38 @@ export default function Connect() {
                 </div>
             </div>
 
-            <div className="max-w-5xl mx-auto grid lg:grid-cols-3 grid-cols-1 ">
+            <div className="max-w-5xl mx-auto grid lg:grid-cols-3 grid-cols-1 mb-10">
 
-                <div className="col-span-2 m-10 lg:m-0">
-                    <h1 className='text-3xl font-bold mb-5'>Have you any question?</h1>
+                <form className="col-span-2 m-10 lg:m-0" onSubmit={sendEmail} ref={form}>
+                    <h1 className='text-3xl font-bold mb-5'>Im want to get a chance</h1>
 
-                    <h1 className='mb-5'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint illum nisi voluptates sapiente odio minus iure quo dolor quidem fuga.</h1>
+                    <h1 className='mb-5'>Even if you don't have experience working in the right field. But I would like to have the opportunity to work with everyone.</h1>
 
-                    <div className="w-full grid grid-cols-1 lg:grid-cols-2  gap-2 mb-2 lg:mb-5 text-black  ">
-                        <input type="text" name="" id="" className='p-4 w-full ' />
-                        <input type="text" name="" id="" className='p-4 w-full ' />
+                    <div className="w-full grid gap-5 text-black ">
+                        <input type="email" name="user_email" id="user_email" className='p-4 w-full ' placeholder='Email' />
+                        <input type="text" name="user_name" id="user_name" className='p-4 w-full ' placeholder='Name' />
                     </div>
-                    <div className="w-full grid grid-cols-1 lg:grid-cols-2  gap-2 text-black ">
-                        <input type="text" name="" id="" className='p-4 w-full ' />
-                        <input type="text" name="" id="" className='p-4 w-full ' />
-                    </div>
-                    <textarea className="w-full lg:mt-5 mt-2  text-black" rows={7}>
 
-                    </textarea>
-                    <Button gradientDuoTone='purpleToBlue' outline className='mt-10 lg:my-10 w-full lg:w-auto '>Sunmit</Button>
-                </div>
+                    <textarea className="w-full mt-5   text-black" name="message" id="message" rows={7} placeholder="Send Message"></textarea>
 
 
-                <div className="flex items-center justify-center w-auto lg:w-full h-[400px] m-10 ">
+
+                    <Button gradientDuoTone="purpleToPink" type="submit" className={ success ? "hidden":"w-full mt-3 mb-10"} >
+                        {
+                            loading ? (
+                                <>
+                                    <Spinner size='sm' className="mr-2" />
+                                    <span>Loading...</span></>
+                            ) : ('submit')
+                        }
+                    </Button>
+                </form>
+
+
+
+
+
+                <div className="flex items-center justify-center w-auto lg:w-full h-[400px] m-10  ">
                     <div className="h-auto w-full   bg-gray-900 dark:bg-slate-50 text-gray-50 dark:text-gray-800 px-5 py-8 rounded-xl">
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 ">
@@ -45,10 +77,10 @@ export default function Connect() {
                                 Address
                             </h2>
                             <div className=""></div>
-                            <p className='col-span-3'>Meesuk Apartment 19, Soi Yoo Yen, Lat
+                            <div className='col-span-3'>Meesuk Apartment 19, Soi Yoo Yen, Lat
                                 Phrao Subdistrict, Lat Phrao District,
                                 Bangkok 10310
-                            </p>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 ">
@@ -59,43 +91,43 @@ export default function Connect() {
                                 objective
                             </h2>
                             <div className=""></div>
-                            <p className='col-span-3'>
+                            <div className='col-span-3'>
 
-                                <p className='col-span-3'>
+                                <div className='col-span-3'>
                                     website developer
-                                </p>
+                                </div>
                                 <div className=""></div>
-                                <p className='col-span-3'>
+                                <div className='col-span-3'>
                                     Frontend React
-                                </p>
+                                </div>
                                 <div className=""></div>
-                                <p className='col-span-3'>
+                                <div className='col-span-3'>
                                     IT Support
-                                </p>
-                            </p>
+                                </div>
+                            </div>
                         </div>
                         <div className="grid grid-cols-2 lg:grid-cols-4 mb-5 ">
                             <div className="col-span-1 flex items-center">
-                         
+
                                 <BiSolidContact className='text-3xl' /><div className="font-extrabold text-3xl mb-2 inline  lg:hidden">Connect</div>
                             </div>
                             <h2 className='lg:col-span-3 font-extrabold text-3xl mb-2 hidden lg:inline'>
                                 Connect
                             </h2>
                             <div className=""></div>
-                            <p className='col-span-3'>
-                                <p className='col-span-3'>
+                            <div className='col-span-3'>
+                                <div className='col-span-3'>
                                     r5r5wa55@hotmail.com
-                                </p>
+                                </div>
                                 <div className=""></div>
-                                <p className='col-span-3'>
+                                <div className='col-span-3'>
                                     064-451-0578
-                                </p>
+                                </div>
                                 <div className=""></div>
-                                <p className='col-span-3'>
+                                <div className='col-span-3'>
                                     https://github.com/r5r5wa55
-                                </p>
-                            </p>
+                                </div>
+                            </div>
                         </div>
 
 
